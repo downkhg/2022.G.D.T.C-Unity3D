@@ -37,6 +37,8 @@ namespace CSBasic
 
     class Program
     {
+        //객체: 몬스터와 플레이어의 객체(클래스)는 같다.
+        //인스턴스: 몬스터 플레이어와 인스턴스는 다르다.(능력치나 이름이 다르다)
         static void OPPBattilMain()
         {
             Player cPlayer = new Player("player", 100, 10);
