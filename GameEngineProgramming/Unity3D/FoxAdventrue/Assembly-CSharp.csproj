@@ -59,6 +59,7 @@
     <Compile Include="Assets\Scripts\Dynamic.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\용어정리.txt" />
     <None Include="Assets\WorkList.txt" />
   </ItemGroup>
   <ItemGroup>
