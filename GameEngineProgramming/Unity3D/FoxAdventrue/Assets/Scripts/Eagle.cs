@@ -6,6 +6,9 @@ public class Eagle : MonoBehaviour
 {
     public float Speed = 1;
     public float Site = 1;
+
+    public Vector3 vResponPoint;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +24,9 @@ public class Eagle : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(this.transform.position, Site);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(vResponPoint, Time.deltaTime);
     }
 
     private void FixedUpdate()
@@ -32,6 +38,16 @@ public class Eagle : MonoBehaviour
         {
             Debug.Log("OverlapCircle:" + collider.gameObject.name);
             Vector3 vTargetPos = collider.transform.position;
+            Vector3 vDist = vTargetPos - vPos;//위치의 차이를 이용한 거리구하기
+            Vector3 vDir = vDist.normalized;//두물체사이의 방향(평준화-거리를뺀 이동량)
+            float fDist = vDist.magnitude; //두물체사이의 거리(스칼라-순수이동량)
+
+            if (fDist > Time.deltaTime)//한프레임의 이동거리보다 클때만 이동한다.
+                transform.position += vDir * Speed * Time.deltaTime;
+        }
+        else
+        {
+            Vector3 vTargetPos = vResponPoint;
             Vector3 vDist = vTargetPos - vPos;//위치의 차이를 이용한 거리구하기
             Vector3 vDir = vDist.normalized;//두물체사이의 방향(평준화-거리를뺀 이동량)
             float fDist = vDist.magnitude; //두물체사이의 거리(스칼라-순수이동량)
