@@ -1305,11 +1305,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 1
   Site: 1
-  trTargetPoint: {fileID: 0}
+  trTargetPoint: {fileID: 1059597382}
   trResponPoint: {fileID: 1059597382}
   trPatrolPoint: {fileID: 143244831}
   isPatrol: 0
+  isReturn: 1
   isMove: 0
+  isTracking: 0
 --- !u!58 &1164651715
 CircleCollider2D:
   m_ObjectHideFlags: 0

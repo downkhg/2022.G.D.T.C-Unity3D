@@ -12,7 +12,9 @@ public class Eagle : MonoBehaviour
     public Transform trPatrolPoint;
 
     public bool isPatrol;
+    public bool isReturn;
     public bool isMove;
+    public bool isTracking;
 
     private void OnDrawGizmos()
     {
@@ -23,42 +25,67 @@ public class Eagle : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(trPatrolPoint.position, Time.deltaTime);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(trTargetPoint.position, Time.deltaTime*2);
     }
 
     private void FixedUpdate()
     {
         Vector3 vPos = this.transform.position;
         Collider2D collider = Physics2D.OverlapCircle(vPos, Site, 1<<LayerMask.NameToLayer("Player"));
-
-        if (isPatrol == false)
+        if (isReturn == false)
         {
-            if (collider && collider.gameObject.tag == "Player")
+            if (collider)
             {
-                Debug.Log("OverlapCircle:" + collider.gameObject.name);
-                MoveProcess(collider.transform.position);
+                trTargetPoint = collider.transform;
+                isPatrol = false;
+                isReturn = false;
             }
             else
             {
-                //Vector3 vTargetPos = trResponPoint.position;
-                //Vector3 vDist = vTargetPos - vPos;//위치의 차이를 이용한 거리구하기
-                //Vector3 vDir = vDist.normalized;//두물체사이의 방향(평준화-거리를뺀 이동량)
-                //float fDist = vDist.magnitude; //두물체사이의 거리(스칼라-순수이동량)
-
-                //if (fDist > Time.deltaTime)//한프레임의 이동거리보다 클때만 이동한다.
-                //    transform.position += vDir * Speed * Time.deltaTime;
-                if (MoveProcess(trResponPoint.position) == false)
+                if (trTargetPoint == null)
                 {
-                    trTargetPoint = trPatrolPoint;
-                    isPatrol = true;
+                    trTargetPoint = trResponPoint;
+                    isReturn = true;
                 }
             }
         }
-        else
+        //else
+        //{
+        //    if (trTargetPoint != null)
+        //        trTargetPoint = trResponPoint;
+        //    else
+        //        trTargetPoint = null;
+        //}
+
+        if(trTargetPoint)
         {
-            if (collider == null)
-                PatrolProcess();
-            else
-                isPatrol = false;
+            isMove = MoveProcess(trTargetPoint.position);
+
+            if (isPatrol)
+            {
+                if (isMove == false)
+                {
+                    if (trTargetPoint.gameObject.name == trPatrolPoint.gameObject.name)
+                    {
+                        trTargetPoint = trResponPoint;
+                    }
+                    else if (trTargetPoint.gameObject.name == trResponPoint.gameObject.name)
+                    {
+                        trTargetPoint = trPatrolPoint;
+                    }
+                }
+            }
+            else if(isReturn)
+            {
+                if (isMove == false)
+                {
+                    isReturn = false;
+                    isPatrol = true;
+                    trTargetPoint = trPatrolPoint;
+                }
+            }
         }
     }
 
