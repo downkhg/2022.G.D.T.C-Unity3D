@@ -1311,7 +1311,8 @@ MonoBehaviour:
   isPatrol: 0
   isReturn: 1
   isMove: 0
-  isTracking: 0
+  isTracking: 1
+  curAIState: 1
 --- !u!58 &1164651715
 CircleCollider2D:
   m_ObjectHideFlags: 0

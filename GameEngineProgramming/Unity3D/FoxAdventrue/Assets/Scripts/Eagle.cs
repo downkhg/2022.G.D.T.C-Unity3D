@@ -16,6 +16,69 @@ public class Eagle : MonoBehaviour
     public bool isMove;
     public bool isTracking;
 
+    public enum E_AI_STATUS
+    {
+        NONE,
+        TRACKING,
+        RETURN,
+        PATROL
+    }
+
+    public E_AI_STATUS curAIState = E_AI_STATUS.NONE;
+
+    public void SetState(E_AI_STATUS state)
+    {
+        switch(state)
+        {
+            case E_AI_STATUS.TRACKING:
+                
+                break;
+            case E_AI_STATUS.RETURN:
+                trTargetPoint = trResponPoint;
+                break;
+            case E_AI_STATUS.PATROL:
+                trTargetPoint = trPatrolPoint;
+                break;
+        }
+        curAIState = state;
+    }
+
+    public void UpdateState()
+    {
+        switch (curAIState)
+        {
+            case E_AI_STATUS.TRACKING:
+                if (trTargetPoint)
+                    SetState(E_AI_STATUS.RETURN);
+                break;
+            case E_AI_STATUS.RETURN:
+                if (trTargetPoint)
+                {
+                    if (isMove == false)
+                    {
+                        SetState(E_AI_STATUS.PATROL);
+                    }
+                }
+                break;
+            case E_AI_STATUS.PATROL:
+                if (trTargetPoint)
+                {
+                    if (isMove == false)
+                    {
+                        if (trTargetPoint.gameObject.name == trPatrolPoint.gameObject.name)
+                        {
+                            trTargetPoint = trResponPoint;
+                        }
+                        else if (trTargetPoint.gameObject.name == trResponPoint.gameObject.name)
+                        {
+                            trTargetPoint = trPatrolPoint;
+                        }
+                    }
+                }
+                break;
+        }
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(this.transform.position, Site);
@@ -30,42 +93,39 @@ public class Eagle : MonoBehaviour
         Gizmos.DrawWireSphere(trTargetPoint.position, Time.deltaTime*2);
     }
 
+    private void Start()
+    {
+        SetState(curAIState);
+    }
+
+
     private void FixedUpdate()
     {
-        Vector3 vPos = this.transform.position;
-        Collider2D collider = Physics2D.OverlapCircle(vPos, Site, 1<<LayerMask.NameToLayer("Player"));
-        if (isReturn == false)
-        {
-            if (collider)
-            {
-                trTargetPoint = collider.transform;
-                isPatrol = false;
-                isReturn = false;
-            }
-            else
-            {
-                if (trTargetPoint == null)
-                {
-                    trTargetPoint = trResponPoint;
-                    isReturn = true;
-                }
-            }
-        }
-        //else
-        //{
-        //    if (trTargetPoint != null)
-        //        trTargetPoint = trResponPoint;
-        //    else
-        //        trTargetPoint = null;
-        //}
+        FindProcess();
+        isMove = MoveProcess(trTargetPoint.position);
+        UpdateState();
+    }
 
-        if(trTargetPoint)
+    public void FindProcess()
+    {
+        Vector3 vPos = this.transform.position;
+        Collider2D collider = Physics2D.OverlapCircle(vPos, Site, 1 << LayerMask.NameToLayer("Player"));
+
+        if (collider)
+        {
+            trTargetPoint = collider.transform;
+            SetState(E_AI_STATUS.TRACKING);
+        }
+    }
+
+    public void PatrolProcess()
+    {
+        if (trTargetPoint)
         {
             isMove = MoveProcess(trTargetPoint.position);
-
-            if (isPatrol)
+            if (isMove == false)
             {
-                if (isMove == false)
+                if (isPatrol)
                 {
                     if (trTargetPoint.gameObject.name == trPatrolPoint.gameObject.name)
                     {
@@ -76,34 +136,12 @@ public class Eagle : MonoBehaviour
                         trTargetPoint = trPatrolPoint;
                     }
                 }
-            }
-            else if(isReturn)
-            {
-                if (isMove == false)
+                else if (isReturn)
                 {
                     isReturn = false;
                     isPatrol = true;
                     trTargetPoint = trPatrolPoint;
                 }
-            }
-        }
-    }
-
-    public void PatrolProcess()
-    {
-        if (trTargetPoint)
-        {
-            bool isMove = MoveProcess(trTargetPoint.position);
-
-            if (trTargetPoint.gameObject.name == trResponPoint.gameObject.name)
-            {
-                if (isMove == false)
-                    trTargetPoint = trPatrolPoint;
-            }
-            else if (trTargetPoint.gameObject.name == trResponPoint.gameObject.name)
-            {
-                if (isMove == false)
-                    trTargetPoint = trPatrolPoint;
             }
         }
     }
