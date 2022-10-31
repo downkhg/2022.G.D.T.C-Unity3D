@@ -68,9 +68,11 @@
     <Compile Include="Assets\Scripts\CameraTracker.cs" />
     <Compile Include="Assets\Scripts\Dynamic.cs" />
     <Compile Include="Assets\Scripts\Eagle.cs" />
+    <Compile Include="Assets\Scripts\Frog.cs" />
     <Compile Include="Assets\Scripts\Gun.cs" />
     <Compile Include="Assets\Scripts\Item.cs" />
     <Compile Include="Assets\Scripts\Opossum.cs" />
+    <Compile Include="Assets\Scripts\Responner.cs" />
     <None Include="Assets\용어정리.txt" />
     <None Include="Assets\WorkList.txt" />
     <Reference Include="UnityEngine.Purchasing">
