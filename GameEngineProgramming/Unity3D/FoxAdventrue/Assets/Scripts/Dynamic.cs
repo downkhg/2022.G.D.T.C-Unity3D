@@ -73,7 +73,7 @@ public class Dynamic : MonoBehaviour
             Destroy(collision.gameObject);
             Score++;
         }
-       
+
         isJump = false;
     }
 
