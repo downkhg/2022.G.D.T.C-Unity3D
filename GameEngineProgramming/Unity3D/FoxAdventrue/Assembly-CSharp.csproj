@@ -64,6 +64,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\HierachyWindow\EditorScript\HierachyWindow.cs" />
+    <Compile Include="Assets\HierachyWindow\EditorScript\ScenePickerEditor.cs" />
+    <Compile Include="Assets\HierachyWindow\HierachyWindowAssist.cs" />
+    <Compile Include="Assets\HierachyWindow\ScenePicker.cs" />
+    <Compile Include="Assets\HierachyWindow\UnityComponet.cs" />
+    <Compile Include="Assets\HierachyWindow\UnityObject.cs" />
     <Compile Include="Assets\Scripts\Bullet.cs" />
     <Compile Include="Assets\Scripts\CameraTracker.cs" />
     <Compile Include="Assets\Scripts\DeathObject.cs" />
@@ -78,6 +84,7 @@
     <Compile Include="Assets\Scripts\Responner.cs" />
     <None Include="Assets\용어정리.txt" />
     <None Include="Assets\WorkList.txt" />
+    <None Include="Assets\HierachyWindow\ClassDiagram.cd" />
     <Reference Include="UnityEngine.Purchasing">
       <HintPath>C:/Users/KHG/source/repos/2022.G.D.T.C-Unity3d/GameEngineProgramming/Unity3D/FoxAdventrue/Library/ScriptAssemblies/UnityEngine.Purchasing.dll</HintPath>
     </Reference>

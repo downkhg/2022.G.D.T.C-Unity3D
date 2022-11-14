@@ -12,7 +12,7 @@ public class Responner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Debug.Log(string.Format("{0}/{1}:Start()", this.gameObject.name, this.name));
     }
 
     // Update is called once per frame
