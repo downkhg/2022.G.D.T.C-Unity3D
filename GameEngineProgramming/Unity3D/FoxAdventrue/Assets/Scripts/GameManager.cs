@@ -125,8 +125,9 @@ public class GameManager : MonoBehaviour
         ProcessSetPatrol();
         ProcessLife();
         guiManager.UpdateGUIState();
+        guiManager.UpdatePlayerStatusBar(resoponnerPlayer.objTarget.GetComponent<Player>());
 
-        if(Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             EventScenceChange("Game");
         }
