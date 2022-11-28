@@ -78,6 +78,7 @@
     <Compile Include="Assets\Scripts\Eagle.cs" />
     <Compile Include="Assets\Scripts\Frog.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\GUI\GUIItemButton.cs" />
     <Compile Include="Assets\Scripts\GUI\GUIManager.cs" />
     <Compile Include="Assets\Scripts\GUI\GUIStatusBar.cs" />
     <Compile Include="Assets\Scripts\Gun.cs" />
