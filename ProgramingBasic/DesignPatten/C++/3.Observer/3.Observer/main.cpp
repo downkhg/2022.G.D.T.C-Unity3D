@@ -70,7 +70,7 @@ namespace Observer
     class Commander
     {
         vector<Unit*> listUnit;
-
+        int nIdx = 0; //자동추가시 카운트되는 인덱스
     public:
         Commander(int capacity = 12)
         {
@@ -80,8 +80,8 @@ namespace Observer
 
         void AddUnit(Unit* unit)
         {
-            static int nIdx = 0;
-            printf_s("%s:AddUnit(%d/%d)-", this->ToString(), listUnit.capacity(), listUnit.size());
+            //static int nIdx = 0; //지울때 인덱스가 변경되므로 멤버변수로 사용해야한다.
+            printf_s("%s:AddUnit(%d/%d)-[%d]", this->ToString(), listUnit.capacity(), listUnit.size(), nIdx);
             if (nIdx >= listUnit.capacity())
             {
                 listUnit.push_back(unit);
@@ -91,13 +91,15 @@ namespace Observer
             {
                 printf_s("[%d]\n", nIdx);
                 listUnit[nIdx] = unit;
-                nIdx++;
             }
+            nIdx++;
         }
 
         void RemoveUnit(Unit* unit)
         {
-            remove(listUnit.begin(), listUnit.end(), unit);
+            auto it = remove(listUnit.begin(), listUnit.end(), unit);
+            printf_s("%s:RemoveUnit(%d/%d)\n", this->ToString(), listUnit.capacity(), listUnit.size());
+            nIdx--;
         }
 
         void Move(int x, int y)
@@ -111,6 +113,13 @@ namespace Observer
         {
             for (auto it = listUnit.begin(); it != listUnit.end(); it++)
                 (*it)->Attack(x, y);
+        }
+
+        void DispayList()
+        {
+            for (auto it = listUnit.begin(); it != listUnit.end(); it++)
+                printf("%s,", (*it)->ToString());
+            printf("\n");
         }
 
         const char* ToString()
@@ -137,6 +146,15 @@ void main()
     //commander.AddUnit(unit); //유닛이라는 유닛이 존재하는가? //추상클래스로 만들면 이러한 오류를 막을수있다.
     commander.AddUnit(&marin[1]);
     commander.AddUnit(&medic[1]);
-
+    commander.DispayList();
     commander.Attack(10, 10);
+
+    commander.RemoveUnit(&marin[0]);
+    commander.RemoveUnit(&marin[1]);
+    commander.DispayList();
+    commander.Move(10, 10);
+
+    commander.AddUnit(&marin[0]);
+    commander.AddUnit(&marin[1]);
+    commander.DispayList();
 }
